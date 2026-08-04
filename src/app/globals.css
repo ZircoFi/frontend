@@ -1,0 +1,445 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-space-grotesk), "Space Grotesk", var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /*
+   * ZircoFi palette: a bright, airy sky. White cloud surfaces on a pale blue field,
+   * ink-blue text, the brand blue for action, and teal / periwinkle accents drawn
+   * from the layered-cloud mark.
+   */
+  --color-zf-ink: #0d1b33;
+  --color-zf-slate: #3d4f74;
+  --color-zf-muted: #5d6f93;
+  --color-zf-faint: #8fa0bf;
+  --color-zf-blue: #1f4fff;
+  --color-zf-blue-deep: #1436d6;
+  --color-zf-sky: #4d9dff;
+  --color-zf-teal: #0e8f86;
+  --color-zf-teal-bright: #2cc9b8;
+  --color-zf-teal-deep: #0a6e66;
+  --color-zf-peri: #6e87f5;
+  --color-zf-rose: #d63d75;
+  --color-zf-white: #ffffff;
+  --color-zf-cloud: #f2f7ff;
+  --color-zf-mist: #e6f0ff;
+  --color-zf-line: rgb(37 78 168 / 0.12);
+  --color-zf-line-strong: rgb(37 78 168 / 0.26);
+
+  /* shadcn tokens */
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-drift: drift 26s ease-in-out infinite alternate;
+  --animate-fill: fill 2.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:root {
+  --background: #f7faff;
+  --foreground: #0d1b33;
+  --card: #ffffff;
+  --card-foreground: #0d1b33;
+  --popover: #ffffff;
+  --popover-foreground: #0d1b33;
+  --primary: #0e8f86;
+  --primary-foreground: #ffffff;
+  --secondary: #e6f0ff;
+  --secondary-foreground: #0d1b33;
+  --muted: #eef4ff;
+  --muted-foreground: #5d6f93;
+  --accent: #e6f0ff;
+  --accent-foreground: #0d1b33;
+  --destructive: #d63d75;
+  --border: rgb(37 78 168 / 0.12);
+  --input: rgb(37 78 168 / 0.18);
+  --ring: rgb(31 79 255 / 0.35);
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: clip;
+    background-color: var(--background);
+    /* The sky: a bright gradient from pale blue at the top of the page into near-white. */
+    background-image:
+      radial-gradient(1100px 520px at 50% -8%, rgb(77 157 255 / 0.2), transparent 62%),
+      radial-gradient(760px 380px at 88% 4%, rgb(110 135 245 / 0.12), transparent 60%),
+      radial-gradient(700px 360px at 8% 12%, rgb(14 143 134 / 0.07), transparent 60%),
+      linear-gradient(180deg, #e9f2ff 0%, #f7faff 640px);
+    background-repeat: no-repeat;
+  }
+  ::selection {
+    background: rgb(31 79 255 / 0.18);
+    color: #0d1b33;
+  }
+  /* Tailwind v4 no longer sets a pointer cursor on buttons; every interactive control gets one here. */
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  summary,
+  a[href],
+  .btn {
+    cursor: pointer;
+  }
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  .btn:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1216px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Eyebrow label with a small sky marker */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-zf-blue);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-zf-sky);
+  box-shadow:
+    0 0 0 3px rgb(77 157 255 / 0.18),
+    0 0 12px 2px rgb(77 157 255 / 0.45);
+}
+
+/* Headline gradient: ink deepening into the mark's teal, echoing the primary buttons */
+.text-glow {
+  background: linear-gradient(180deg, #0d1b33 0%, #113c4d 55%, #0e8f86 115%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Accent line: the mark's colours, light cyan into bright teal */
+.text-spectrum {
+  background: linear-gradient(90deg, #3ed3ea 0%, #2cc9b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 9999px;
+  padding: 12px 22px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-zf-teal);
+  outline-offset: 3px;
+}
+
+/* Primary action: the teal of the cloud mark, so buttons stand apart from blue links and accents */
+.btn-primary {
+  color: #ffffff;
+  background: linear-gradient(135deg, #2cc9b8 0%, #0e8f86 55%, #0a6e66 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    0 10px 28px -10px rgb(14 143 134 / 0.6);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.4),
+    0 14px 36px -10px rgb(14 143 134 / 0.7);
+}
+
+.btn-ghost {
+  color: var(--color-zf-ink);
+  border: 1px solid rgb(37 78 168 / 0.2);
+  background: rgb(255 255 255 / 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-ghost:hover {
+  border-color: rgb(37 78 168 / 0.38);
+  background: #ffffff;
+}
+
+.btn-text {
+  padding-left: 4px;
+  padding-right: 4px;
+  color: var(--color-zf-slate);
+}
+
+.btn-text:hover {
+  color: var(--color-zf-ink);
+}
+
+/* Cloud panel: a soft white card floating on the sky */
+.panel {
+  position: relative;
+  border-radius: 20px;
+  border: 1px solid var(--color-zf-line);
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.92) 0%, rgb(247 250 255 / 0.88) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 18px 44px -22px rgb(30 64 175 / 0.22);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.panel-hover:hover {
+  border-color: var(--color-zf-line-strong);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 1),
+    0 26px 56px -24px rgb(30 64 175 / 0.3);
+  transform: translateY(-2px);
+}
+
+.panel-accent {
+  border-color: rgb(31 79 255 / 0.22);
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.96) 0%, rgb(230 240 255 / 0.85) 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 1),
+    0 26px 60px -26px rgb(31 79 255 / 0.35);
+}
+
+/* Fine grid, fades to nothing at the edges */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgb(37 78 168 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(37 78 168 / 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 100%);
+}
+
+/* Soft cumulus built from layered white radial gradients */
+.cloudfield {
+  background-image:
+    radial-gradient(420px 150px at 12% 22%, rgb(255 255 255 / 0.85), transparent 70%),
+    radial-gradient(340px 130px at 30% 14%, rgb(255 255 255 / 0.7), transparent 70%),
+    radial-gradient(520px 170px at 78% 18%, rgb(255 255 255 / 0.8), transparent 70%),
+    radial-gradient(300px 120px at 90% 34%, rgb(255 255 255 / 0.6), transparent 70%),
+    radial-gradient(460px 150px at 46% 78%, rgb(255 255 255 / 0.55), transparent 70%),
+    radial-gradient(360px 140px at 6% 70%, rgb(255 255 255 / 0.5), transparent 70%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+/* Horizontal rule that brightens in the middle */
+.glow-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(31 79 255 / 0.35) 50%, transparent);
+}
+
+/* Hide scrollbars on horizontal card rails */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Platform "flight deck" surfaces: printed sheets, hairlines and stubs, not glass clouds */
+.sheet {
+  background: #ffffff;
+  border: 1px solid rgb(13 27 51 / 0.14);
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgb(13 27 51 / 0.05);
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgb(13 27 51 / 0.1);
+  background: var(--color-zf-cloud);
+  border-radius: 13px 13px 0 0;
+  padding: 9px 16px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-zf-muted);
+}
+
+/* Perforation, like the tear line on a boarding pass */
+.perf {
+  border-top: 2px dashed rgb(13 27 51 / 0.16);
+}
+
+.perf-v {
+  border-left: 2px dashed rgb(13 27 51 / 0.16);
+}
+
+/* Market tape: one seamless loop of a duplicated row */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Datasheet rows: label, dotted leader, value */
+.spec-leader {
+  flex: 1 1 auto;
+  border-bottom: 1px dotted rgb(37 78 168 / 0.28);
+  margin: 0 10px 4px;
+}
+
+/* FAQ accordions */
+summary {
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
+}
+
+@keyframes drift {
+  from { transform: translateX(-3%); }
+  to { transform: translateX(3%); }
+}
+
+@keyframes fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.22s; }
+.delay-3 { animation-delay: 0.34s; }
+.delay-4 { animation-delay: 0.46s; }
+.delay-5 { animation-delay: 0.6s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
