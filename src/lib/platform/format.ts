@@ -31,7 +31,9 @@ export function fmtAgo(minutes: number): string {
   if (minutes < 1) return "just now";
   if (minutes < 60) return `${Math.round(minutes)}m ago`;
   const h = Math.floor(minutes / 60);
-  return `${h}h ${Math.round(minutes % 60)}m ago`;
+  if (h < 24) return `${h}h ${Math.round(minutes % 60)}m ago`;
+  const d = Math.floor(h / 24);
+  return `${d}d ${h % 24}h ago`;
 }
 
 /** Turns thrown values into a short, readable message. Detects HTML bodies from a misconfigured backend. */
