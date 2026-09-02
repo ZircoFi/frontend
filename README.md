@@ -30,3 +30,10 @@
 - **Writes and private reads** (profile, attestations) are sent to `POST /api/platform/db` with the user's Privy access token. The route verifies the token, validates the arguments in `src/lib/platform/ops.ts`, and runs the operation with a service-role Supabase client that carries the verified user id in an `x-zircofi-actor` header. The database function `app_user_id()` trusts that header only on service-role requests.
 - **Settlement.** Swaps settle on-chain through the SwapRouter; the contracts and their deployment records live in `contracts/`.
 - **Eligibility.** Trading, providing liquidity and making markets each require a role attestation (`TRADER`, `LP`, `MAKER`, `RELAYER`), shown in Settings and enforced on-chain by the EligibilityRegistry.
+
+## Related
+
+- Contracts: `contracts/README.md`
+- Documentation: `docs/` (published with GitBook)
+- Concept brief: `CONCEPT_BRIEF.md`
+- Follow [@ZircoFi](https://x.com/ZircoFi)
