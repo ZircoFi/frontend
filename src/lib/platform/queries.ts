@@ -48,6 +48,21 @@ export async function getRecentFills(db: PlatformClient, limit = 24): Promise<Fi
   return unwrap(await db.from("fills").select("*").order("executed_at", { ascending: false }).limit(limit), []);
 }
 
+/** A fill joined with its market's symbol, for wallet-scoped history views. */
+export type WalletFillRow = FillRow & { markets: Pick<VenueMarketRow, "symbol"> | null };
+
+export async function getWalletFills(db: PlatformClient, wallet: string, limit = 50): Promise<WalletFillRow[]> {
+  return unwrap(
+    await db
+      .from("fills")
+      .select("*, markets(symbol)")
+      .ilike("trader_address", wallet)
+      .order("executed_at", { ascending: false })
+      .limit(limit),
+    []
+  );
+}
+
 export async function getGovernanceLog(db: PlatformClient, limit = 12): Promise<GovernanceRow[]> {
   return unwrap(await db.from("governance_log").select("*").order("occurred_at", { ascending: false }).limit(limit), []);
 }
